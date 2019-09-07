@@ -8,7 +8,7 @@ const expressHbs = require('express-handlebars');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const session = require('express-session');
-const {ensureAuthenticated} = require('./helper/auth');
+const {ensureAuthenticated,ensureGuest} = require('./helper/auth');
 const Handlebars = require('handlebars')
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
@@ -24,7 +24,9 @@ Handlebars.registerHelper('eachProperty', function(context, options) {
 // load user model
 const message = require('./models/message');
 const User = require('./models/user');
-
+//  message.find().select('handle -_id').then(msgs => {
+//   console.log(msgs);
+//  })
 // load passport
 require('./config/passport')(passport);
 
@@ -64,12 +66,12 @@ app.use(function(req,res,next){
 })
 
 // get login
-app.get('/login',(req,res,next)=>{
+app.get('/login',ensureGuest,(req,res,next)=>{
   res.render('login');
 });
 
 // get register
-app.get('/signup',(req,res,next) => {
+app.get('/signup',ensureGuest,(req,res,next) => {
   res.render('signup');
 });
 
@@ -169,7 +171,7 @@ mongoose.connect('mongodb+srv://remah:remah654312@cluster0-ytypa.mongodb.net/Cha
 
 // const io = socket(server); // pass http server
 // // require(socket.io)(server)
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000; 
 server.listen(port,()=>{
  console.log('server started successfully!')
 })
