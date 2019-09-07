@@ -1,6 +1,6 @@
 // Make connection , this socket differ from than in app.j
 // this one run in browser
-var socket = io.connect('http://localhost:4000');
+var socket = io.connect('https://dry-cliffs-11237.herokuapp.com');
 
 const roomContainer = document.getElementById('room-container')
 
