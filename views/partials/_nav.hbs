@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
+  <div class="container">
+    <a class="navbar-brand" href="/">Chat</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        {{#if user}}
+              <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Family Chat</a>
+          <div class="dropdown-menu">
+            <li class="nav-item">
+              <a href="/logout" class="nav-link">logout</a>
+            </li>
+            {{else}}
+            <li class="nav-item">
+              <a href="/login" class="nav-link">Login</a>
+            </li>
+            <li class="nav-item">
+              <a href="/signup" class="nav-link">Register</a>
+            </li>
+            {{/if}}
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
