@@ -12,6 +12,8 @@ const {ensureAuthenticated,ensureGuest} = require('./helper/auth');
 const Handlebars = require('handlebars')
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
+const imageMimeTypes = ['image/jpeg', 'image/png', 'images/gif','image/jpg']
+
 
 Handlebars.registerHelper('eachProperty', function(context, options) {
   var ret = "";
@@ -24,6 +26,7 @@ Handlebars.registerHelper('eachProperty', function(context, options) {
 // load user model
 const message = require('./models/message');
 const User = require('./models/user');
+const Image = require('./models/image')
 //  message.find().select('handle -_id').then(msgs => {
 //   console.log(msgs);
 //  })
@@ -54,7 +57,7 @@ app.set('views','views'); // and their templatings will be at views folder 'defa
 
 
 // middleware bodyParser
-app.use(bodyParser.urlencoded({extended : false})); // urlencoded is basicly text data
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }))
 
 app.use(express.static('public'));
 
@@ -142,6 +145,11 @@ app.get('/',ensureAuthenticated, (req, res) => {
 //   // Send message that new room was created
 // })
 
+// get book
+app.get('/book/new', (req,res,next)=>{
+  res.render('new')
+})
+
 app.get('/:room',ensureAuthenticated, async (req, res) => { // we want it
   rooms[req.params.room] = { users: {} }  
   const msgs = await message.find({roomName:req.params.room}) // want
@@ -154,8 +162,35 @@ app.get('/:room',ensureAuthenticated, async (req, res) => { // we want it
 })
 
 
+app.post('/new',async (req,res,next)=>{
+  const book = new Image({
+    title: req.body.title
+  })
+  saveCover(book, req.body.cover) 
 
+  try {
+    const newBook = await book.save()
+    res.redirect('/book/show')
+  } catch {
+    res.redirect('/')
+  }
+})
 
+app.get('/book/show',async (req,res,next) => {
+  const books = await Image.find()
+  res.render('books',{
+    books: books
+  })
+})
+
+function saveCover(book, coverEncoded) {
+  if (coverEncoded == null) return
+  const cover = JSON.parse(coverEncoded)
+  if (cover != null && imageMimeTypes.includes(cover.type)) {
+    book.coverImage = new Buffer.from(cover.data, 'base64')
+    book.coverImageType = cover.type
+  }
+}
 
 
 // connect db
@@ -171,7 +206,7 @@ mongoose.connect('mongodb+srv://remah:remah654312@cluster0-ytypa.mongodb.net/Cha
 
 // const io = socket(server); // pass http server
 // // require(socket.io)(server)
-const port = process.env.PORT || 3000; 
+const port = process.env.PORT || 4000; 
 server.listen(port,()=>{
  console.log('server started successfully!')
 })
