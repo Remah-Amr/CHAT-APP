@@ -9,5 +9,9 @@
 // git merge name
 
 // you can write git status to know which branch you in
+// don't forget after any change to 'add .' then 'commit'
 
-// don't forget after any change to add then commit
+// if you want to add to github write: 
+// git remote add origin https://github.com/Remah-Amr/chat.git
+//git push -u origin master
+// note : master change by your branch
