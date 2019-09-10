@@ -9,3 +9,5 @@
 // git merge name
 
 // you can write git status to know which branch you in
+
+// don't forget after any change to add then commit
