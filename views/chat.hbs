@@ -1,23 +1,19 @@
- <!-- <form action="/" method="post"> -->
- <div id="online"></div>
-          <div id="mario-chat">
-              <h2>Family Chat</h2> 
-              <div id="chat-window"> 
-                  <div id="output">
-                  {{#each msgs}}
-                      <p><strong> {{handle}} </strong>:     {{message}} 
-                  {{/each}}
-                      </div>
-                  <div id="feedback"></div>
-              </div>
-              <input type='hidden' id="handle" type="text" placeholder="Handle" name="handle" value="{{sender}}"/>
-              <input id="message" type="text" placeholder="Message" name="message"/>
-              <button id="send" >Send</button>
-          </div>
+<div id="online"></div>
+<div id="mario-chat">
+    <h2>Family Chat</h2>
+    <div id="chat-window">
+        <div id="output">
+            {{#each msgs}}
+            <p><strong> {{handle}} </strong>: {{message}}
+                {{/each}}
+        </div>
+        <div id="feedback"></div>
+    </div>
+    <input type='hidden' id="handle" type="text" placeholder="Handle" name="handle" value="{{sender}}" />
+    <input id="message" type="text" placeholder="Message" name="message" />
+    <button id="send">Send</button>
+</div>
 
-        <!-- </form> -->
-<script> const roomName = "{{roomName}}" </script>
+<script> const roomName = "{{roomName}}" 
 </script>
 <script src="/chat.js"></script>
-       
-         <!-- since in public folder 'static' -->
